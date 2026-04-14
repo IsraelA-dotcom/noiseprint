@@ -1,0 +1,199 @@
+.perm-root {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  padding: 40px 24px;
+}
+
+.perm-glow-left {
+  position: absolute;
+  top: -120px;
+  left: -160px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.16) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.perm-glow-right {
+  position: absolute;
+  bottom: -100px;
+  right: -140px;
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.perm-content {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  z-index: 1;
+}
+
+.perm-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0.8;
+}
+
+.perm-title {
+  font-size: clamp(36px, 7vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.perm-title-accent {
+  color: var(--cyan);
+}
+
+.perm-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 360px;
+}
+
+/* Permission cards */
+.perm-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.perm-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  transition: border-color 300ms ease;
+}
+
+.perm-card--granted {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.perm-card--denied {
+  border-color: rgba(255, 51, 51, 0.4);
+  background: rgba(255, 51, 51, 0.05);
+}
+
+.perm-card-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.perm-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.perm-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.perm-card-desc {
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+.perm-card-status {
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.perm-status-granted {
+  color: var(--green);
+}
+
+.perm-status-denied {
+  color: #ff3333;
+}
+
+.perm-status-pending {
+  color: var(--muted);
+  opacity: 0.3;
+}
+
+.perm-denied-msg {
+  font-size: 12px;
+  color: #ff4d4d;
+  line-height: 1.6;
+  padding: 12px 16px;
+  background: rgba(255, 51, 51, 0.08);
+  border: 1px solid rgba(255, 51, 51, 0.2);
+  border-radius: var(--radius-sm);
+}
+
+/* CTA */
+.perm-cta {
+  width: 100%;
+  background: var(--cyan);
+  color: #0A0E1A;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.perm-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 212, 255, 0.35);
+}
+
+.perm-cta:active {
+  transform: translateY(0);
+}
+
+.perm-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.perm-cta--retry {
+  background: transparent;
+  border: 1px solid rgba(255, 51, 51, 0.4);
+  color: #ff4d4d;
+}
+
+.perm-cta--retry:hover {
+  background: rgba(255, 51, 51, 0.08);
+  box-shadow: none;
+}
+
+.perm-footnote {
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.4;
+  letter-spacing: 0.02em;
+  text-align: center;
+}

@@ -1,0 +1,244 @@
+.dash-root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-glow-top {
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Header */
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 32px;
+  z-index: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.dash-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dash-logo {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.dash-logo-accent {
+  color: var(--cyan);
+}
+
+.dash-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+.dash-back {
+  background: none;
+  border: none;
+  color: var(--cyan);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 160ms ease;
+}
+
+.dash-back:hover {
+  opacity: 0.7;
+}
+
+/* Body */
+.dash-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 1;
+}
+
+/* Map */
+.dash-map-wrap {
+  position: relative;
+  height: 420px;
+  flex-shrink: 0;
+}
+
+.dash-map {
+  width: 100%;
+  height: 100%;
+}
+
+.dash-map-label {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(10, 14, 26, 0.85);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  z-index: 999;
+  backdrop-filter: blur(8px);
+}
+
+.dash-map-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.7);
+}
+
+/* Popup */
+.dash-popup .leaflet-popup-content-wrapper {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid rgba(255, 50, 50, 0.3);
+  border-radius: var(--radius-sm);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+}
+
+.dash-popup .leaflet-popup-tip {
+  background: var(--bg-card);
+}
+
+/* Alert log */
+.dash-log {
+  flex: 1;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dash-log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dash-log-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.dash-log-count {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--violet);
+  text-transform: uppercase;
+}
+
+.dash-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dash-log-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.dash-log-item:hover {
+  border-color: rgba(0, 212, 255, 0.2);
+  background: #151e2e;
+}
+
+.dash-log-item--active {
+  border-color: rgba(0, 212, 255, 0.4);
+  background: #0f1e2e;
+}
+
+.dash-log-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dash-log-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff3333;
+  box-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
+  flex-shrink: 0;
+}
+
+.dash-log-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dash-log-location {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.dash-log-time {
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.6;
+  letter-spacing: 0.04em;
+}
+
+.dash-log-db {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.dash-log-db-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: -0.02em;
+}
+
+.dash-log-db-unit {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  opacity: 0.6;
+}

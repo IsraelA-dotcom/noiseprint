@@ -1,0 +1,153 @@
+.ob-root {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.ob-glow-left {
+  position: absolute;
+  top: -120px;
+  left: -160px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ob-glow-right {
+  position: absolute;
+  bottom: -100px;
+  right: -140px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.14) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ob-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+  z-index: 1;
+  padding: 0 24px;
+}
+
+.ob-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+.ob-title {
+  font-size: clamp(52px, 10vw, 96px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.ob-title-accent {
+  color: var(--cyan);
+}
+
+.ob-tagline {
+  font-size: clamp(14px, 2vw, 17px);
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 52px;
+  max-width: 320px;
+}
+
+.ob-waveform {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  padding: 0 24px 16px;
+  z-index: 1;
+}
+
+.ob-wave-bar {
+  width: 3px;
+  border-radius: 99px;
+  background: var(--cyan);
+  opacity: 0.4;
+  animation: waveBar 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes waveBar {
+  0%   { height: 4px; opacity: 0.2; }
+  100% { height: 40px; opacity: 0.7; }
+}
+
+.ob-cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--cyan);
+  color: #0A0E1A;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 14px 32px;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  margin-bottom: 20px;
+}
+
+.ob-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 212, 255, 0.35);
+}
+
+.ob-cta:active {
+  transform: translateY(0);
+}
+
+.ob-cta-arrow {
+  font-size: 17px;
+  transition: transform 160ms ease;
+}
+
+.ob-cta:hover .ob-cta-arrow {
+  transform: translateX(4px);
+}
+
+.ob-footnote {
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.5;
+  letter-spacing: 0.02em;
+}
+.PhoneInputCountrySelect option {
+  background: #1e2736 !important;
+  color: #ffffff !important;
+}
+
+.PhoneInputCountry {
+  background: transparent !important;
+}
+
+.setup-phone-input select {
+  background: #1e2736 !important;
+  color: #ffffff !important;
+}

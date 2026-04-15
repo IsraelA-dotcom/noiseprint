@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-const ANALYZE_URL = "http://localhost:8000/analyze";
 const CONFIDENCE_THRESHOLD = 0.85;
 const CLIP_DURATION_MS = 2000;
+const BACKEND_URL = "https://noiseprint-backend.onrender.com";
 
 export function useAudioMonitor() {
   const [threatDetected, setThreatDetected] = useState(false);
@@ -18,18 +18,26 @@ export function useAudioMonitor() {
   const animFrameRef = useRef(null);
   const cooldownRef = useRef(false);
   const locationRef = useRef("FUTA Campus, Akure");
+  const latitudeRef = useRef(null);
+  const longitudeRef = useRef(null);
   const intervalRef = useRef(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(
         (pos) => {
-          const loc = `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          const loc = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
           setLocation(loc);
           locationRef.current = loc;
+          latitudeRef.current = lat;
+          longitudeRef.current = lon;
         },
         () => {
           locationRef.current = "FUTA Campus, Akure";
+          latitudeRef.current = null;
+          longitudeRef.current = null;
         },
         { enableHighAccuracy: true, maximumAge: 10000 }
       );
@@ -87,8 +95,7 @@ export function useAudioMonitor() {
 
       recorder.onstop = async () => {
         const blob = new Blob(chunks, { type: "audio/webm" });
-        const base64 = await blobToBase64(blob);
-        await analyzeClip(base64);
+        analyzeDecibel();
       };
 
       recorder.start();
@@ -101,15 +108,56 @@ export function useAudioMonitor() {
     intervalRef.current = setInterval(recordClip, CLIP_DURATION_MS + 200);
   }
 
-  const sendAlert = async (location, decibel) => {
+  function analyzeDecibel() {
+    if (!analyserRef.current) return;
+
+    const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
+    analyserRef.current.getByteFrequencyData(dataArray);
+    const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+    const db = Math.round((avg / 255) * 120);
+
+    if (db >= 70 && !cooldownRef.current) {
+      cooldownRef.current = true;
+      setThreatDetected(true);
+      setThreatType("Loud Noise");
+      setConfidence(0.95);
+
+      sendAlert(locationRef.current, db, latitudeRef.current, longitudeRef.current);
+
+      setTimeout(() => {
+        setThreatDetected(false);
+        setThreatType(null);
+        setConfidence(null);
+        cooldownRef.current = false;
+      }, 8000);
+    }
+  }
+
+  const sendAlert = async (location, decibel, latitude, longitude) => {
     try {
-      await fetch('http://localhost:3000/alert', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ location, decibel })
+      const res = await fetch(`${BACKEND_URL}/alert`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ location, decibel, latitude, longitude }),
       });
+      const data = await res.json();
+      console.log("Alert sent:", data.message);
     } catch (error) {
-      console.error('Alert failed:', error);
+      console.error("Alert failed:", error);
+    }
+  };
+
+  function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  return { threatDetected, threatType, confidence, decibel, micAllowed };
+}      console.error('Alert failed:', error);
     }
   };
 

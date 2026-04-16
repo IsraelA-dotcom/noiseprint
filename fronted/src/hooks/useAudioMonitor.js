@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-const CONFIDENCE_THRESHOLD = 0.85;
 const CLIP_DURATION_MS = 2000;
 const BACKEND_URL = "https://noiseprint-backend.onrender.com";
 
@@ -13,7 +12,6 @@ export function useAudioMonitor() {
   const [micAllowed, setMicAllowed] = useState(null);
 
   const streamRef = useRef(null);
-  const recorderRef = useRef(null);
   const analyserRef = useRef(null);
   const animFrameRef = useRef(null);
   const cooldownRef = useRef(false);
@@ -87,14 +85,12 @@ export function useAudioMonitor() {
     function recordClip() {
       const chunks = [];
       const recorder = new MediaRecorder(stream);
-      recorderRef.current = recorder;
 
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunks.push(e.data);
       };
 
-      recorder.onstop = async () => {
-        const blob = new Blob(chunks, { type: "audio/webm" });
+      recorder.onstop = () => {
         analyzeDecibel();
       };
 
@@ -133,7 +129,7 @@ export function useAudioMonitor() {
     }
   }
 
-  const sendAlert = async (location, decibel, latitude, longitude) => {
+  async function sendAlert(location, decibel, latitude, longitude) {
     try {
       const res = await fetch(`${BACKEND_URL}/alert`, {
         method: "POST",
@@ -145,69 +141,7 @@ export function useAudioMonitor() {
     } catch (error) {
       console.error("Alert failed:", error);
     }
-  };
-
-  function blobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result.split(",")[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
   }
 
   return { threatDetected, threatType, confidence, decibel, micAllowed };
-}      console.error('Alert failed:', error);
-    }
-  };
-
-  async function analyzeClip(base64Audio) {
-    try {
-      const res = await fetch(ANALYZE_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          audio: base64Audio,
-          location: locationRef.current,
-        }),
-      });
-
-      if (!res.ok) return;
-
-      const data = await res.json();
-
-      if (
-        data.threatDetected &&
-        data.confidence >= CONFIDENCE_THRESHOLD &&
-        !cooldownRef.current
-      ) {
-        cooldownRef.current = true;
-        setThreatDetected(true);
-        setThreatType(data.threatType);
-        setConfidence(data.confidence);
-
-        await sendAlert(locationRef.current, data.decibel || 0);
-
-        setTimeout(() => {
-          setThreatDetected(false);
-          setThreatType(null);
-          setConfidence(null);
-          cooldownRef.current = false;
-        }, 8000);
-      }
-    } catch (err) {
-      console.warn("Backend not connected:", err.message);
-    }
-  }
-
-  function blobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result.split(",")[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  }
-
-  return { threatDetected, threatType, confidence, decibel, micAllowed };
-}
+                                         }

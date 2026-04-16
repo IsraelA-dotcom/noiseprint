@@ -204,14 +204,14 @@ export default function Permission() {
           </button>
         )}
 
-        {bothGranted && (
-          <button
-            className="perm-cta perm-cta--ready"
-            onClick={() => navigate("/setup")}
-          >
-            Continue to Setup →
-          </button>
-        )}
+        {micStatus === "granted" && (
+  <button
+    className="perm-cta perm-cta--ready"
+    onClick={() => navigate("/monitoring")}
+  >
+    Start Monitoring →
+  </button>
+)}
 
         {anyDenied && asked && (
           <button

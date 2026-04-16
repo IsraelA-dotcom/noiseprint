@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Permission.css";
 
@@ -38,6 +38,12 @@ export default function Permission() {
   }
 
   const bothGranted = micStatus === "granted" && locationStatus === "granted";
+  useEffect(() => {
+    if (bothGranted) {
+      setTimeout(() => navigate("/monitoring"), 1000);
+    }
+  }, [bothGranted, navigate]);
+  
   const anyDenied = micStatus === "denied" || locationStatus === "denied";
   const asked = micStatus !== null && locationStatus !== null;
 

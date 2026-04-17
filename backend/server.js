@@ -41,12 +41,11 @@ app.post('/alert', async (req, res) => {
     });
     console.log('Alert saved to Firebase');
 
-    await client.calls.create({
-      twiml: '<Response><Say voice="alice">NoisePrint Alert. Threat detected. Please respond immediately.</Say></Response>',
-      to: process.env.EMERGENCY_CONTACT_1,
-      from: process.env.TWILIO_PHONE_NUMBER
-    });
-    console.log('Call fired successfully');
+   await client.messages.create({
+  body: 'NoisePrint Alert! Loud sound detected at ' + location + '. Decibel level: ' + decibel,
+  to: process.env.EMERGENCY_CONTACT_1,
+  from: process.env.TWILIO_PHONE_NUMBER
+});
 
     res.json({ message: 'Alert received. Contacts notified.' });
 

@@ -42,9 +42,9 @@ app.post('/alert', async (req, res) => {
     console.log('Alert saved to Firebase');
 
    await client.messages.create({
-  body: 'NoisePrint Alert! Loud sound detected at ' + location + '. Decibel level: ' + decibel,
-  to: process.env.EMERGENCY_CONTACT_1,
-  from: process.env.TWILIO_PHONE_NUMBER
+  body: 'noisePrint Alert! Loud sound detected at ' + location + '. Decibel level: ' + decibel + 'dB',
+  to: 'whatsapp:' + process.env.EMERGENCY_CONTACT_1,
+  from: 'whatsapp:+14155238886'  // Twilio WhatsApp sandbox number
 });
 
     res.json({ message: 'Alert received. Contacts notified.' });

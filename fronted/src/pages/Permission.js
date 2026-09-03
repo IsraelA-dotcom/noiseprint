@@ -11,7 +11,6 @@ export default function Permission() {
   async function requestPermissions() {
     setLoading(true);
 
-    // Request microphone
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       stream.getTracks().forEach((t) => t.stop());
@@ -20,24 +19,16 @@ export default function Permission() {
       setMicStatus("denied");
     }
 
-    // Request location
     await new Promise((resolve) => {
       navigator.geolocation.getCurrentPosition(
-        () => {
-          setLocationStatus("granted");
-          resolve();
-        },
-        () => {
-          setLocationStatus("denied");
-          resolve();
-        }
+        () => { setLocationStatus("granted"); resolve(); },
+        () => { setLocationStatus("denied"); resolve(); }
       );
     });
 
     setLoading(false);
   }
 
-  const bothGranted = micStatus === "granted" && locationStatus === "granted";
   const anyDenied = micStatus === "denied" || locationStatus === "denied";
   const asked = micStatus !== null && locationStatus !== null;
 
@@ -64,9 +55,7 @@ export default function Permission() {
             <div className="perm-card-icon">🎙️</div>
             <div className="perm-card-info">
               <span className="perm-card-title">Microphone</span>
-              <span className="perm-card-desc">
-                To listen for acoustic threats in real time
-              </span>
+              <span className="perm-card-desc">To listen for acoustic threats in real time</span>
             </div>
             <div className="perm-card-status">
               {micStatus === "granted" && <span className="perm-status-granted">✓</span>}
@@ -79,9 +68,7 @@ export default function Permission() {
             <div className="perm-card-icon">📍</div>
             <div className="perm-card-info">
               <span className="perm-card-title">Location</span>
-              <span className="perm-card-desc">
-                To tag alerts with where the threat occurred
-              </span>
+              <span className="perm-card-desc">To tag alerts with where the threat occurred</span>
             </div>
             <div className="perm-card-status">
               {locationStatus === "granted" && <span className="perm-status-granted">✓</span>}
@@ -108,12 +95,12 @@ export default function Permission() {
           </button>
         )}
 
-        {bothGranted && (
+        {micStatus === "granted" && (
           <button
             className="perm-cta perm-cta--ready"
-            onClick={() => navigate("/setup")}
+            onClick={() => navigate("/monitoring")}
           >
-            Continue to Setup →
+            Start Monitoring →
           </button>
         )}
 
@@ -132,4 +119,4 @@ export default function Permission() {
       </div>
     </div>
   );
-}
+    }
